@@ -15,6 +15,7 @@ public class AppDbContext:DbContext
     public DbSet<Genre> Genres { get; set; }
     public DbSet<BookImg> BookImages { get; set; }
     public DbSet<BookTag> BookTags { get; set; }
+    public DbSet<Tag> Tags { get; set; }
     public DbSet<Featured> Features { get; set; }
     
     override protected void OnModelCreating(ModelBuilder modelBuilder)

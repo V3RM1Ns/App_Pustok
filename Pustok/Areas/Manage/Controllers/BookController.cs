@@ -24,7 +24,7 @@ public class BookController(AppDbContext context) : Controller
     {
         ViewBag.Authors = new SelectList(context.Authors, "Id", "Name");
         ViewBag.Genres = new SelectList(context.Genres, "Id", "Name");
-        ViewBag.Tags = context.BookTags.ToList();
+        ViewBag.Tags = context.Tags.ToList();
         return View();
     }
 
@@ -36,7 +36,7 @@ public class BookController(AppDbContext context) : Controller
         {
             ViewBag.Authors = new SelectList(context.Authors, "Id", "Name");
             ViewBag.Genres = new SelectList(context.Genres, "Id", "Name");
-            ViewBag.Tags = context.BookTags.ToList();
+            ViewBag.Tags = context.Tags.ToList();
             return View(book);
         }
 
@@ -45,7 +45,7 @@ public class BookController(AppDbContext context) : Controller
             ModelState.AddModelError("Title", "This book title already exists");
             ViewBag.Authors = new SelectList(context.Authors, "Id", "Name");
             ViewBag.Genres = new SelectList(context.Genres, "Id", "Name");
-            ViewBag.Tags = context.BookTags.ToList();
+            ViewBag.Tags = context.Tags.ToList();
             return View(book);
         }
 
@@ -125,7 +125,7 @@ public class BookController(AppDbContext context) : Controller
 
         ViewBag.Authors = new SelectList(context.Authors, "Id", "Name", book.AuthorId);
         ViewBag.Genres = new SelectList(context.Genres, "Id", "Name", book.GenreId);
-        ViewBag.Tags = context.BookTags.ToList();
+        ViewBag.Tags = context.Tags.ToList();
         ViewBag.SelectedTags = book.BookTags.Select(bt => bt.TagId).ToList();
         return View(book);
     }
@@ -138,7 +138,7 @@ public class BookController(AppDbContext context) : Controller
         {
             ViewBag.Authors = new SelectList(context.Authors, "Id", "Name", book.AuthorId);
             ViewBag.Genres = new SelectList(context.Genres, "Id", "Name", book.GenreId);
-            ViewBag.Tags = context.BookTags.ToList();
+            ViewBag.Tags = context.Tags.ToList();
             return View(book);
         }
 
@@ -154,7 +154,7 @@ public class BookController(AppDbContext context) : Controller
             ModelState.AddModelError("Title", "This book title already exists");
             ViewBag.Authors = new SelectList(context.Authors, "Id", "Name", book.AuthorId);
             ViewBag.Genres = new SelectList(context.Genres, "Id", "Name", book.GenreId);
-            ViewBag.Tags = context.BookTags.ToList();
+            ViewBag.Tags = context.Tags.ToList();
             return View(book);
         }
 
