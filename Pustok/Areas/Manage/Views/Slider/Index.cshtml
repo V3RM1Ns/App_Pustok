@@ -1,0 +1,173 @@
+@model List<Pustok.Models.Slider>
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="text-primary"><i class="fas fa-images"></i> Slider Management</h2>
+        </div>
+        <div class="col text-end">
+            <a asp-area="Manage" asp-controller="Slider" asp-action="Create" class="btn btn-success btn-lg">
+                <i class="fas fa-plus"></i> Create New Slider
+            </a>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col"><i class="fas fa-hashtag"></i> Order</th>
+                                    <th scope="col"><i class="fas fa-heading"></i> Title</th>
+                                    <th scope="col"><i class="fas fa-align-left"></i> Description</th>
+                                    <th scope="col"><i class="fas fa-image"></i> Image</th>
+                                    <th scope="col"><i class="fas fa-mouse-pointer"></i> Button</th>
+                                    <th scope="col"><i class="fas fa-calendar"></i> Created</th>
+                                    <th scope="col"><i class="fas fa-cogs"></i> Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td><span class="badge bg-primary fs-6">@item.Order</span></td>
+                                        <td><strong>@item.Title</strong></td>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(item.Description))
+                                            {
+                                                <span>@(item.Description.Length > 60 ? item.Description.Substring(0, 60) + "..." : item.Description)</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">No description</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(item.Image))
+                                            {
+                                                <img class="img-thumbnail" width="80" height="50" src="~/image/products/@item.Image" alt="@item.Title" style="object-fit: cover;" />
+                                            }
+                                            else
+                                            {
+                                                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="width: 80px; height: 50px;">
+                                                    <i class="fas fa-image text-muted"></i>
+                                                </div>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(item.ButtonText))
+                                            {
+                                                <span class="badge bg-info">@item.ButtonText</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">No button</span>
+                                            }
+                                        </td>
+                                        <td>@item.CreatedAt.ToString("dd/MM/yyyy")</td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button class="btn btn-sm btn-info detail-btn" data-id="@item.Id" title="View Details">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <a asp-area="Manage" asp-controller="Slider" asp-action="Edit" asp-route-id="@item.Id" 
+                                                   class="btn btn-sm btn-warning" title="Edit">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a asp-area="Manage" asp-controller="Slider" asp-action="Delete" asp-route-id="@item.Id" 
+                                                   class="btn btn-sm btn-danger delete" title="Delete">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <!-- Modal content will be loaded here -->
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function(){
+            // Delete functionality
+            $(".delete").click(function(e){
+                e.preventDefault();
+                let url = $(this).attr("href");
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        }).then(res=>{
+                            if(res.ok) {
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: "Slider has been deleted.",
+                                    icon: "success"
+                                });
+                                window.location.reload();
+                            }
+                            else{
+                                Swal.fire({
+                                    title: "Error!",
+                                    text: "Something went wrong.",
+                                    icon: "error"
+                                });
+                            }
+                        });
+                    } 
+                }); 
+            });
+
+            // Detail Modal functionality
+            $(".detail-btn").click(function() {
+                let id = $(this).data('id');
+                let url = `/manage/slider/detail/${id}`;
+                
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        $("#detailModal .modal-content").html(html);
+                        $("#detailModal").modal('show');
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            title: "Error!",
+                            text: "Failed to load slider details.",
+                            icon: "error"
+                        });
+                    });
+            });
+        });
+    </script>
+}
