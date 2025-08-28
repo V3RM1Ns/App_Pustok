@@ -17,6 +17,7 @@ public class AppDbContext:DbContext
     public DbSet<BookTag> BookTags { get; set; }
     public DbSet<Tag> Tags { get; set; }
     public DbSet<Featured> Features { get; set; }
+    public DbSet<Setting> Settings { get; set; }
     
     override protected void OnModelCreating(ModelBuilder modelBuilder)
     {

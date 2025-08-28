@@ -1,0 +1,62 @@
+@model Pustok.Models.Setting
+
+@{
+    ViewData["Title"] = "Create Setting";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="text-primary"><i class="fas fa-plus"></i> Create New Setting</h2>
+        </div>
+        <div class="col text-end">
+            <a asp-action="Index" class="btn btn-secondary btn-lg">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </div>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0"><i class="fas fa-cog"></i> Setting Information</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Key" class="form-label">
+                                <i class="fas fa-key"></i> Setting Key
+                            </label>
+                            <input asp-for="Key" class="form-control form-control-lg" placeholder="Enter setting key..." />
+                            <span asp-validation-for="Key" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Value" class="form-label">
+                                <i class="fas fa-file-alt"></i> Setting Value
+                            </label>
+                            <textarea asp-for="Value" class="form-control" rows="4" placeholder="Enter setting value..."></textarea>
+                            <span asp-validation-for="Value" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a asp-action="Index" class="btn btn-secondary me-md-2">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Create Setting
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

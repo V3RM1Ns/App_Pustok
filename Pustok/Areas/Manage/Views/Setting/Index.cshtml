@@ -1,0 +1,71 @@
+@model IEnumerable<Pustok.Models.Setting>
+
+@{
+    ViewData["Title"] = "Settings";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="text-primary"><i class="fas fa-cogs"></i> Settings Management</h2>
+        </div>
+        <div class="col text-end">
+            <a asp-area="Manage" asp-controller="Setting" asp-action="Create" class="btn btn-success btn-lg">
+                <i class="fas fa-plus"></i> Create New Setting
+            </a>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col"><i class="fas fa-hashtag"></i> ID</th>
+                                    <th scope="col"><i class="fas fa-key"></i> Key</th>
+                                    <th scope="col"><i class="fas fa-file-alt"></i> Value</th>
+                                    <th scope="col"><i class="fas fa-calendar"></i> Created Date</th>
+                                    <th scope="col"><i class="fas fa-cogs"></i> Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td><span class="badge bg-primary">@item.Id</span></td>
+                                        <td><strong>@item.Key</strong></td>
+                                        <td>
+                                            @if (item.Value.Length > 50)
+                                            {
+                                                @item.Value.Substring(0, 50)
+                                            }
+                                            else
+                                            {
+                                                @item.Value
+                                            }
+                                        </td>
+                                        <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">
+                                                    <i class="fas fa-edit"></i> Edit
+                                                </a>
+                                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm" 
+                                                   onclick="return confirm('Are you sure you want to delete this setting?')">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

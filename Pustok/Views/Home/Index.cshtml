@@ -96,21 +96,21 @@
                         <li class="nav-item">
                             <a class="nav-link active" id="Featured-tab" data-bs-toggle="tab" href="#Featured" role="tab"
                                 aria-controls="Featured" aria-selected="true">
-                                Featured Products
+                                @(Model.Settings.ContainsKey("FeaturedProductsTitle") ? Model.Settings["FeaturedProductsTitle"] : "Featured Products")
                             </a>
                             <span class="arrow-icon"></span>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="New-tab" data-bs-toggle="tab" href="#New" role="tab"
                                 aria-controls="New" aria-selected="true">
-                                New Arrivals
+                                @(Model.Settings.ContainsKey("NewArrivalsTitle") ? Model.Settings["NewArrivalsTitle"] : "New Arrivals")
                             </a>
                             <span class="arrow-icon"></span>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="Discount-tab" data-bs-toggle="tab" href="#Discount" role="tab"
                                 aria-controls="Discount" aria-selected="false">
-                                Discounted Products
+                                @(Model.Settings.ContainsKey("DiscountedProductsTitle") ? Model.Settings["DiscountedProductsTitle"] : "Discounted Products")
                             </a>
                             <span class="arrow-icon"></span>
                         </li>
@@ -181,7 +181,7 @@
         <section class="section-margin">
             <div class="container-fluid">
                 <div class="promo-section-heading">
-                    <h2>Deal of the day up to 20% off Special offer</h2>
+                    <h2>@(Model.Settings.ContainsKey("DealOfTheDayTitle") ? Model.Settings["DealOfTheDayTitle"] : "Deal of the day up to 20% off Special offer")</h2>
                 </div>
                 <div class="product-slider with-countdown  slider-border-single-row sb-slick-slider" data-slick-setting='{
                 "autoplay": true,
@@ -511,7 +511,7 @@
             data-bg="image/bg-images/best-seller-bg.jpg">
             <div class="container">
                 <div class="section-title section-title--bordered mb-0">
-                    <h2>Best BEST SELLER BOOKS</h2>
+                    <h2>@(Model.Settings.ContainsKey("BestSellerTitle") ? Model.Settings["BestSellerTitle"] : "Best BEST SELLER BOOKS")</h2>
                 </div>
                 <div class="best-seller-block">
                     <div class="row align-items-center">
@@ -686,7 +686,7 @@
         <section class="section-margin">
             <div class="container">
                 <div class="section-title section-title--bordered">
-                    <h2>CHILDREN’S BOOKS</h2>
+                    <h2>@(Model.Settings.ContainsKey("ChildrensBooksTitle") ? Model.Settings["ChildrensBooksTitle"] : "CHILDREN'S BOOKS")</h2>
                 </div>
                 <div class="product-list-slider slider-two-column product-slider multiple-row sb-slick-slider slider-border-multiple-row"
                     data-slick-setting='{
@@ -874,7 +874,7 @@
         <section class="section-margin">
             <div class="container">
                 <div class="section-title section-title--bordered">
-                    <h2>ARTS & PHOTOGRAPHY BOOKS</h2>
+                    <h2>@(Model.Settings.ContainsKey("ArtsPhotographyTitle") ? Model.Settings["ArtsPhotographyTitle"] : "ARTS & PHOTOGRAPHY BOOKS")</h2>
                 </div>
                 <div class="product-slider sb-slick-slider slider-border-single-row" data-slick-setting='{
                 "autoplay": true,
@@ -1218,7 +1218,7 @@
         <section class="section-margin">
             <div class="container">
                 <div class="section-title">
-                    <h2>LATEST BLOGS</h2>
+                    <h2>@(Model.Settings.ContainsKey("LatestBlogsTitle") ? Model.Settings["LatestBlogsTitle"] : "LATEST BLOGS")</h2>
                 </div>
                 <div class="blog-slider sb-slick-slider" data-slick-setting='{
                 "autoplay": true,

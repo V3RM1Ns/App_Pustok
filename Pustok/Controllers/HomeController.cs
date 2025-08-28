@@ -17,26 +17,29 @@ public class HomeController : Controller
     
     public async Task<IActionResult> Index()
     {
+        // Settings'i key-value dictionary olarak al
+        var settings = await _appDbContext.Settings
+            .ToDictionaryAsync(s => s.Key, s => s.Value);
+        
         var viewModel = new HomeVm()
         { 
             Features = await _appDbContext.Features.ToListAsync(),
-            Sliders = await _appDbContext.Sliders.ToListAsync()
+            Sliders = await _appDbContext.Sliders.ToListAsync(),
+            Settings = settings,
             
-            , FeaturedBooks = await _appDbContext.Books
+            FeaturedBooks = await _appDbContext.Books
                 .Where(b => b.IsFeatured)
                 .Include(b => b.Author)
                 .Include(b => b.Genre)
-                .ToListAsync()
+                .ToListAsync(),
             
-            
-            , NewBooks = await _appDbContext.Books
+            NewBooks = await _appDbContext.Books
                 .Where(b => b.IsNew)
                 .Include(b => b.Author)
                 .Include(b => b.Genre)
-                .ToListAsync()
+                .ToListAsync(),
             
-            
-            , DiscountedBooks = await _appDbContext.Books
+            DiscountedBooks = await _appDbContext.Books
                 .Where(b => b.DiscountPrice > 0)
                 .Include(b => b.Author)
                 .Include(b => b.Genre)
