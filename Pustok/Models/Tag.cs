@@ -9,5 +9,7 @@ public class Tag:BaseEntity
     [Display(Name = "Tag Name")]
     public string Name { get; set; } = string.Empty;
     
+    public DateTime CreatedDate { get; set; } = DateTime.Now;
+    
     public List<BookTag> BookTags { get; set; } = new();
 }
