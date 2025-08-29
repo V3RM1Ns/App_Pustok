@@ -63,7 +63,7 @@ namespace Pustok.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DiscountPrice")
+                    b.Property<int?>("DiscountPrice")
                         .HasColumnType("int");
 
                     b.Property<int>("GenreId")

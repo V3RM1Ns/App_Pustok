@@ -39,14 +39,10 @@ public class BookController(AppDbContext context) : Controller
             ViewBag.Tags = context.Tags.ToList();
             return View(book);
         }
-
-        if (context.Books.Any(b => b.Title == book.Title))
+        
+        if (book.DiscountPrice == null)
         {
-            ModelState.AddModelError("Title", "This book title already exists");
-            ViewBag.Authors = new SelectList(context.Authors, "Id", "Name");
-            ViewBag.Genres = new SelectList(context.Genres, "Id", "Name");
-            ViewBag.Tags = context.Tags.ToList();
-            return View(book);
+            book.DiscountPrice = 0;
         }
 
         // Main Image Upload

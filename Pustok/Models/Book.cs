@@ -4,6 +4,7 @@ namespace Pustok.Models;
 
 public class Book:AuditEntity
 {
+    
     public string Title { get; set; }
     public string Description { get; set; }
     
@@ -15,8 +16,9 @@ public class Book:AuditEntity
     
     [Column(TypeName = "decimal(18,2)")]
     public decimal Price { get; set; }
-    public int DiscountPrice { get; set; }
-    
+
+    public int? DiscountPrice { get; set; }
+
     public bool InStock { get; set; }
     public bool IsFeatured { get; set; }
     public bool IsNew { get; set; }
