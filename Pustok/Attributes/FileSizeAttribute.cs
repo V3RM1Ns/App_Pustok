@@ -2,20 +2,49 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Pustok.Attributes;
 
-public class FileSizeAttribute:ValidationAttribute
+public class FileSizeAttribute : ValidationAttribute
 {
-    private readonly int _maxFileSize;
-    public FileSizeAttribute(int maxFileSize)
+    private readonly int _maxSizeInMB;
+    
+    public FileSizeAttribute(int maxSizeInMB)
     {
-        _maxFileSize = maxFileSize;
+        _maxSizeInMB = maxSizeInMB;
     }
+    
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
-        if(value is not IFormFile file)
+        if (value == null)
             return ValidationResult.Success;
 
-        if(file.Length > _maxFileSize * 1024 * 1024)
-            return new ValidationResult($"File size must be less than {_maxFileSize} MB");
+        // Tek dosya kontrolü
+        if (value is IFormFile singleFile)
+        {
+            return ValidateFile(singleFile);
+        }
+
+        // Dosya listesi kontrolü
+        if (value is IEnumerable<IFormFile> fileList)
+        {
+            foreach (var file in fileList)
+            {
+                if (file != null)
+                {
+                    var result = ValidateFile(file);
+                    if (result != ValidationResult.Success)
+                        return result;
+                }
+            }
+        }
+
+        return ValidationResult.Success;
+    }
+
+    private ValidationResult? ValidateFile(IFormFile file)
+    {
+        var maxSizeInBytes = _maxSizeInMB * 1024 * 1024;
+        
+        if (file.Length > maxSizeInBytes)
+            return new ValidationResult($"File size must not exceed {_maxSizeInMB} MB");
 
         return ValidationResult.Success;
     }

@@ -1,51 +1,58 @@
-@model List<Book>
+@model List<Pustok.Models.Book>
 
 @foreach (var item in Model)
 {
-    <div class="single-slide">
-        <div class="product-card">
-            <div class="product-header">
-                <a href="#" class="author">
-                    @item.Author.Name
+    <div class="single-slide-item">
+        <article class="single-product">
+            <div class="product-img">
+                <a href="~/Book/Detail/@item.Id">
+                    <img class="primary-img" src="~/image/products/@item.MainImage" alt="">
+                    <img class="secondary-img" src="~/image/products/@item.HoverImage" alt="">
                 </a>
-                <h3>
-                    <a href="@Url.Action("Detail", "Book", new { id = item.Id })">@item.Title</a>
-                </h3>
+                <span class="sticker-new-2">
+                    @if (item.IsNew)
+                    {
+                        <span class="sticker">new</span>
+                    }
+                    @if (item.DiscountPrice != null && item.DiscountPrice > 0)
+                    {
+                        <span class="sticker sticker-2">-@item.DiscountPrice%</span>
+                    }
+                </span>
+                <div class="add-actions">
+                    <ul>
+                        <li class="quick-view-btn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+                            <a href="#" onclick="openModal(@item.Id)" data-bs-toggle="tooltip" data-placement="right" title="Quick view">
+                                <i class="ion-ios-search"></i>
+                            </a>
+                        </li>
+                        <li><a href="#" data-bs-toggle="tooltip" data-placement="right" title="Compare"><i class="ion-stats-bars"></i></a></li>
+                        <li><a href="#" data-bs-toggle="tooltip" data-placement="right" title="Wishlist"><i class="ion-heart"></i></a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="product-card--body">
-                <div class="card-image">
-                    <img src="@item.MainImage" alt="@item.Title">
-                    <div class="hover-contents">
-                        <a href="@Url.Action("Detail", "Book", new { id = item.Id })" class="hover-image">
-                            <img src="@item.HoverImage" alt="@item.Title">
-                        </a>
-                        <div class="hover-btns">
-                            <a href="#" class="single-btn" title="Add to Cart">
-                                <i class="fas fa-shopping-basket"></i>
-                            </a>
-                            <a href="#" class="single-btn" title="Add to Wishlist">
-                                <i class="fas fa-heart"></i>
-                            </a>
-                            <a href="#" class="single-btn" title="Compare">
-                                <i class="fas fa-random"></i>
-                            </a>
-                            <a asp-action="BookModal" asp-controller="Book" asp-route-id="@item.Id" data-bs-toggle="modal" data-bs-target="#quickModal" class="single-btn BookModal" title="Quick View">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                        </div>
+            <div class="product-content">
+                <div class="product-desc_info">
+                    <h3 class="product-name"><a href="~/Book/Detail/@item.Id">@item.Title</a></h3>
+                    <div class="price-box">
+                        @if (item.DiscountPrice != null && item.DiscountPrice > 0)
+                        {
+                            <span class="price">£@(item.Price - ((item.Price * item.DiscountPrice) / 100))</span>
+                            <span class="old-price">£@item.Price</span>
+                            <span class="price-discount">@item.DiscountPrice%</span>
+                        }
+                        else
+                        {
+                            <span class="price">£@item.Price</span>
+                        }
+                    </div>
+                    <div class="product-add-action">
+                        <ul>
+                            <li><a href="#" title="Add to cart"><i class="ion-bag"></i></a></li>
+                        </ul>
                     </div>
                 </div>
-                <div class="price-block">
-                    <span class="price">£@(item.Price-((item.Price*item.DiscountPrice)/100))</span>
-                    @if (item.DiscountPrice > 0)
-                    {
-                        <del class="price-old">£@item.Price</del>
-                        <span class="price-discount">@item.DiscountPrice%</span>
-                    }
-                </div>
             </div>
-        </div>
+        </article>
     </div>
 }
-
-

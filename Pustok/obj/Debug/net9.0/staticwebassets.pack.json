@@ -7637,6 +7637,10 @@
       "PackagePath": "staticwebassets/image/icon/quotation.png"
     },
     {
+      "Id": "/Users/apple/RiderProjects/Pustok/Pustok/wwwroot/image/images.png",
+      "PackagePath": "staticwebassets/image/images.png"
+    },
+    {
       "Id": "/Users/apple/RiderProjects/Pustok/Pustok/wwwroot/image/logo--footer.png",
       "PackagePath": "staticwebassets/image/logo--footer.png"
     },
